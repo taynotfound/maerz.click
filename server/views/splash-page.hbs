@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{splashPage.branding_config.title}}</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: {{splashPage.branding_config.backgroundColor}};
+      color: {{splashPage.branding_config.textColor}};
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    
+    .splash-container {
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+      padding: 3rem 2rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .logo {
+      max-width: 80px;
+      height: auto;
+      margin-bottom: 2rem;
+    }
+    
+    .splash-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: {{splashPage.branding_config.primaryColor}};
+    }
+    
+    .splash-description {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+      opacity: 0.8;
+    }
+    
+    .continue-btn {
+      display: inline-block;
+      background: {{splashPage.branding_config.primaryColor}};
+      color: white;
+      padding: 0.8rem 2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .continue-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+    
+    .powered-by {
+      margin-top: 2rem;
+      font-size: 0.8rem;
+      opacity: 0.5;
+    }
+    
+    .countdown {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+    
+    @media (max-width: 768px) {
+      .splash-container {
+        padding: 2rem 1.5rem;
+      }
+      
+      .splash-title {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="splash-container">
+    {{#if splashPage.branding_config.logoUrl}}
+    <img src="{{splashPage.branding_config.logoUrl}}" alt="Logo" class="logo">
+    {{/if}}
+    
+    <h1 class="splash-title">{{splashPage.branding_config.title}}</h1>
+    
+    {{#if splashPage.branding_config.description}}
+    <p class="splash-description">{{splashPage.branding_config.description}}</p>
+    {{/if}}
+    
+    <a href="{{link.target}}" class="continue-btn" id="continue-btn">
+      Continue to Website
+    </a>
+    
+    {{#if splashPage.branding_config.autoRedirect}}
+    <div class="countdown">
+      Redirecting automatically in <span id="countdown">{{splashPage.branding_config.autoRedirectDelay}}</span> seconds
+    </div>
+    {{/if}}
+    
+    <div class="powered-by">
+      Powered by <a href="/" style="color: {{splashPage.branding_config.primaryColor}};">{{site_name}}</a>
+    </div>
+  </div>
+  
+  <script>
+    {{#if splashPage.branding_config.autoRedirect}}
+    let countdown = {{splashPage.branding_config.autoRedirectDelay}};
+    const countdownEl = document.getElementById('countdown');
+    
+    const timer = setInterval(() => {
+      countdown--;
+      countdownEl.textContent = countdown;
+      
+      if (countdown <= 0) {
+        clearInterval(timer);
+        window.location.href = '{{link.target}}';
+      }
+    }, 1000);
+    {{/if}}
+    
+    // Track splash page view
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon('/api/links/{{link.id}}/visit', JSON.stringify({
+        referrer: 'splash-page'
+      }));
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+{{> header}}
+<main class="homepage">
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Cut your links <span>shorter</span>.</h1>
+      <p class="hero-description">
+        maerz.click is a modern URL shortener with support for custom domains. 
+        Shorten URLs, customize links, track clicks, and manage everything from one place.
+      </p>
+      <div class="hero-actions">
+        {{#unless user}}
+          <a class="button primary large" href="/login">Get Started</a>
+          <a class="button secondary large" href="/dash">Try It Out</a>
+        {{/unless}}
+        {{#if user}}
+          <a class="button primary large" href="/dash">Go to Dashboard</a>
+        {{/if}}
+      </div>
+    </div>
+  </section>
+  
+  <section class="features">
+    <div class="container">
+      <h2>Why choose maerz.click?</h2>
+      <div class="features-grid">
+        <div class="feature">
+          <div class="feature-icon">🔗</div>
+          <h3>Custom URLs</h3>
+          <p>Create memorable short links with custom aliases and domains.</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">📊</div>
+          <h3>Analytics</h3>
+          <p>Track clicks, analyze traffic, and get insights about your links.</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">🔒</div>
+          <h3>Security</h3>
+          <p>Password protection and expiration dates keep your links secure.</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">⚙️</div>
+          <h3>API Access</h3>
+          <p>Full RESTful API for integrations and automations.</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">🎨</div>
+          <h3>Customizable</h3>
+          <p>Themes and customization options to match your brand.</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">🏠</div>
+          <h3>Independent</h3>
+          <p>Not owned by any corporation - your links, your control, your privacy.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+{{> footer}}
